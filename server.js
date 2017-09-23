@@ -112,6 +112,72 @@ apiRoutes.post("/register", (req, res) => {
     });
 });
 
+apiRoutes.use((req, res, next) => {
+    let token = req.body.token || req.query.token || req.headers["x-access-token"];
+    if (token) {
+        jwt.verify(token, process.env.SECRET, (err, decoded) => {
+            if (err)
+                res.json({success: false, message: "Failed to authenticate token"});
+            else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    } else {
+        return res.status(403).send({
+            success: false,
+            message: "No token provided."
+        });
+    }
+});
+
+apiRoutes.get("/issues", (req, res) => {
+    let user = req.decoded;
+    res.writeHead(200, {"Content-Type": "application/json"});
+
+    mongo.connect(process.env.MONGO_URL, (err, db) => {
+        if (err) throw err;
+
+        let coll = db.collection("issues");
+        coll.find({
+            uid: user._id
+        }).toArray((e, docs) => {
+            if (e) throw e;
+
+            res.end(JSON.stringify({
+                success: true,
+                data: docs
+            }));
+        });
+    });
+});
+
+apiRoutes.post("/issues/new", (req, res) => {
+    let user = req.decoded;
+    res.writeHead(200, {"Content-Type": "application/json"});
+
+    mongo.connect(process.env.MONGO_URL, (err, db) => {
+        if (err) throw err;
+
+        let coll = db.collection("issues");
+        coll.insertOne({
+            uid: user._id,
+            title: req.body.title,
+            org: req.body.org,
+            location: req.body.location,
+            date: new Date(),
+            status: "New issue"
+        }, (e, d) => {
+            if (e) throw e;
+
+            res.end(JSON.stringify({
+                success: true,
+                message: "New issue added successfuly."
+            }));
+        });
+    });
+});
+
 app.listen(port, (err) => {
     if (err) throw err;
     open("http://localhost:" + port);

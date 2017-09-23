@@ -34,6 +34,9 @@ The scripts are used as below:
 * `.editorconfig` enforces indenting and other configurations for editors and IDEs.
 * `.eslintrc.json` is the ESLint config file.
 
+## Other Files
+`api.js` is a wrapper that sends the required request to the Dandelion NLP API.
+
 # Database
 mLab is used for hosting the MongoDB database. There are 3 collections:
 
