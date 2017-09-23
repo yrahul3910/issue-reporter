@@ -48,24 +48,14 @@ The format of a document in this collection is:
 }
 ```
 
-## Organizations
-Format is:
+## Users
+This is used for both users and organizations. Format is:
 ```
 {
     _id: Auto generated id,
     name: The name of the organization,
-    dp: The profile picture of the organization, in base64
-}
-```
-
-## Users
-Format is:
-```
-{
-    _id: Auto generated id,
-    name: User's name
-    username: A username chosen by the user,
+    username: Username chosen by the organization,
     pwd: The password, encrypted by bcrypt,
-    issues: An array with the _id of all issues opened by the user
+    dp: The profile picture of the organization, in base64
 }
 ```
