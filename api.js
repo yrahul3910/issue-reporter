@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
-let send = (token) => {
+let send = (token, d1, d2) => {
     $.ajax({
         url: "https://api.dandelion.eu/datatxt/sim/v1",
         type: "GET",
         data: {
-            text1: "Test sentence",
-            text2: "Another test sentence",
+            text1: d1,
+            text2: d2,
             token
         },
         success: (res) => {

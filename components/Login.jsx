@@ -15,7 +15,8 @@ class Login extends React.Component {
     click() {
         $.post("http://localhost:8000/api/authenticate", {
             username: $("#username").val(),
-            password: $("#password").val()
+            password: $("#password").val(),
+            type: "org"
         }, (data) => {
             if (!data.success)
                 $("#message").html("<span style='color: red'>Authentication failed</span>");

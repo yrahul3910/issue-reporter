@@ -1,8 +1,6 @@
 import React from "react";
 import Sidebar from "./Sidebar.jsx";
-import Dashboard from "./Dashboard.jsx";
 import Welcome from "./Welcome.jsx";
-import Banner from "./Banner.jsx";
 
 class Home extends React.Component {
     render() {

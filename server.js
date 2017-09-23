@@ -8,7 +8,7 @@ import bodyParser from "body-parser";
 import jwt from "jsonwebtoken";
 import {MongoClient as mongo} from "mongodb";
 import bcrypt from "bcrypt";
-
+import callApi from "./api.js";
 
 // Used for transpiling
 import webpack from "webpack";
@@ -103,7 +103,8 @@ apiRoutes.post("/register", (req, res) => {
                         username: req.body.username,
                         name: req.body.name,
                         pwd: hash,
-                        dp: ""
+                        dp: "",
+                        type: req.body.type
                     });
                 });
                 res.json({ success: true, message: "Success!" });
@@ -153,7 +154,13 @@ apiRoutes.get("/issues", (req, res) => {
 });
 
 apiRoutes.post("/issues/new", (req, res) => {
+
     let user = req.decoded;
+    if (user.type == "org") {
+        res.writeHead(403, {"Content-Type": "application/json"});
+        res.end(JSON.stringify({success: false, message: "Not allowed."}));
+        return;
+    }
     res.writeHead(200, {"Content-Type": "application/json"});
 
     mongo.connect(process.env.MONGO_URL, (err, db) => {
@@ -174,6 +181,42 @@ apiRoutes.post("/issues/new", (req, res) => {
                 success: true,
                 message: "New issue added successfuly."
             }));
+        });
+    });
+});
+
+apiRoutes.get("/filter", (req, res) => {
+    let user = req.decoded;
+    if (user.type == "user") {
+        res.writeHead(403, {"Content-Type": "application/json"});
+        res.end(JSON.stringify({success: false, message: "Not allowed"}));
+    }
+    res.writeHead(200, {"Content-Type": "application/json"});
+
+    mongo.connect(process.env.MONGO_URL, (err, db) => {
+        if (err) throw err;
+
+        let coll = db.collection("issues");
+        coll.find({
+            _id: user._id
+        }).toArray((e, docs) => {
+            // Use the API to get duplicates.
+            let result = docs.reduce((acc, cur) => {
+                let dup = false;
+                for (let x of acc) {
+                    let res;
+                    if ((res = callApi(process.env.API_KEY, cur.title, x.title).success)) {
+                        if (res.similarity >= 0.75) {
+                            dup = true;
+                            break;
+                        }
+                    }
+                }
+                if (!dup) {
+                    acc.push(cur);
+                }
+            }, []);
+            res.end(JSON.stringify({success: true, data: result}));
         });
     });
 });

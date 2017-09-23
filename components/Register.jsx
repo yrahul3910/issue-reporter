@@ -18,7 +18,8 @@ class Register extends React.Component {
         $.post("http://localhost:8000/api/register", {
             username,
             password: $("#password").val(),
-            name
+            name,
+            type: "org"
         }, (data) => {
             if (!data.success)
                 $("#message").html("<span style='color: red'>Username already exists!</span>");
