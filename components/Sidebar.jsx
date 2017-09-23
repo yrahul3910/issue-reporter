@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-require("../src/index.css");
+import {Link} from "react-router-dom";
 
 class Sidebar extends React.Component {
     /*
@@ -22,22 +22,22 @@ class Sidebar extends React.Component {
                     <h5>{this.props.name}</h5>
                 </li>
                 <li style={{paddingTop: "50px"}}>
-                    <a href="#" className="white-text">
+                    <Link to="/" className="white-text">
                         <i className="white-text material-icons">home</i>
                         Home
-                    </a>
+                    </Link>
                 </li>
                 <li>
-                    <a href="#" className="white-text">
+                    <Link to="/profile" className="white-text">
                         <i className="white-text material-icons">person</i>
                         Profile
-                    </a>
+                    </Link>
                 </li>
                 <li>
-                    <a href="#" className="white-text">
+                    <Link to="/dashboard" className="white-text">
                         <i className="material-icons white-text">priority_high</i>
                         Issues
-                    </a>
+                    </Link>
                 </li>
                 <li style={{paddingTop: "50px"}} >
                     <a href="#" className="white-text">
