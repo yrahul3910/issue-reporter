@@ -1,0 +1,22 @@
+body {
+  font-family: Sans-Serif;
+}
+
+.round {
+    border-radius: 50%;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.center {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.tiny .card-image {
+    max-height: 100px !important;
+    overflow: hidden !important;
+}
