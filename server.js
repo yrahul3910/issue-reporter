@@ -17,7 +17,7 @@ import config from "./webpack.config";
 const port = 8000;
 const app = express();
 const compiler = webpack(config);
-dotenv(config);
+dotenv.config();
 
 // gzip files
 app.use(compression());
@@ -25,6 +25,7 @@ app.use(session({secret: process.env.SECRET, resave: true, saveUninitialized: tr
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(express.static("images"));
 // Use Webpack middleware
 app.use(require("webpack-dev-middleware")(compiler, {
     noInfo: true,

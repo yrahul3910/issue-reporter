@@ -16,6 +16,10 @@ These are in the `components` folder.
 * `IssueCard`: The element showing an issue on the dashboard.
 * `Welcome`: The page shown after the user has logged in.
 * `IssuePage`: The page with the `Sidebar` and the `Dashboard` components.
+* `Banner`: The navbar and banner of the main home page.
+* `Login`: The page for organizations to log in
+* `MainPage`: The main home page of the website.
+* `Register`: The page for organizations to register.
 
 ## NPM Scripts
 The scripts are used as below:
@@ -53,9 +57,9 @@ This is used for both users and organizations. Format is:
 ```
 {
     _id: Auto generated id,
-    name: The name of the organization,
-    username: Username chosen by the organization,
+    name: The name of the user/organization,
+    username: Username chosen by the user/organization,
     pwd: The password, encrypted by bcrypt,
-    dp: The profile picture of the organization, in base64
+    dp: The profile picture of the user/organization, in base64
 }
 ```

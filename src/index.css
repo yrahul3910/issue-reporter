@@ -20,3 +20,14 @@ a:hover {
     max-height: 100px !important;
     overflow: hidden !important;
 }
+
+.banner {
+    background-position: 50% 50%;
+    background-size: cover;
+    overflow: hidden;
+    position: relative;
+}
+
+.left-shift {
+    margin-left: 60px;
+}
