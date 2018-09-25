@@ -1,12 +1,12 @@
-import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-export default {
+module.exports = {
     entry: [
         path.resolve(__dirname, "src/index")
     ],
     output: {
-        path: path.resolve(__dirname, "src"),
+        path: path.resolve(__dirname, "dist"),
         publicPath: "/",
         filename: "bundle.js"
     },

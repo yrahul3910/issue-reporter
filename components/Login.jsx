@@ -13,19 +13,17 @@ class Login extends React.Component {
     }
 
     click() {
-        $.post("http://localhost:8000/api/authenticate", {
+        $.post("http://localhost:5000/api/user/login", {
             username: $("#username").val(),
             password: $("#password").val(),
             type: "org"
-        }, (data) => {
-            if (!data.success)
-                $("#message").html("<span style='color: red'>Authentication failed</span>");
-            else {
-                $("#message").html("<span style='color: green'>Success</span>");
+        }).done(data => {              
+            $("#message").html("<span style='color: green'>Success</span>");
 
-                localStorage.setItem("token", data.token);
-                this.props.toggleLogin(data.user);
-            }
+            localStorage.setItem("token", data.token);
+            this.props.toggleLogin(data.user);
+        }).fail(response => {
+            $("#message").html("<span style='color: red'>Authentication failed</span>");
         });
     }
 

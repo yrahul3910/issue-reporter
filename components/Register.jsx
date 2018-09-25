@@ -15,23 +15,21 @@ class Register extends React.Component {
     click() {
         let name = $("#name").val();
         let username = $("#username").val();
-        $.post("http://localhost:8000/api/register", {
+        $.post("http://localhost:5000/api/signup", {
             username,
             password: $("#password").val(),
             name,
             type: "org"
-        }, (data) => {
-            if (!data.success)
-                $("#message").html("<span style='color: red'>Username already exists!</span>");
-            else {
-                $("#message").html("<span style='color: green'>Success!</span>");
-                this.props.toggleLogin({
-                    name,
-                    username
-                });
+        }, (data) => {               
+            $("#message").html("<span style='color: green'>Success!</span>");
+            this.props.toggleLogin({
+                name,
+                username
+            });
 
-                localStorage.setItem("token", data.token);
-            }
+            localStorage.setItem("token", data.token);
+        }).fail(res => {
+            $("#message").html("<span style='color: red'>Username already exists!</span>");
         });
     }
 
