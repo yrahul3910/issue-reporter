@@ -7,7 +7,7 @@ npm i
 echo '-----------------------------------'
 echo 'Linting Python code'
 echo '-----------------------------------'
-pycodestyle server/server.py
+pycodestyle server.py
 npm run lint
 
 echo '-----------------------------------'

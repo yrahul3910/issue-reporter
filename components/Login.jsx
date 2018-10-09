@@ -16,7 +16,7 @@ class Login extends React.Component {
         $.post("http://localhost:5000/api/user/login", {
             username: $("#username").val(),
             password: $("#password").val(),
-            type: "org"
+            type: $("#type").val()
         }).done(data => {              
             $("#message").html("<span style='color: green'>Success</span>");
 
@@ -52,6 +52,15 @@ class Login extends React.Component {
                                 <i className="material-icons prefix">lock_outline</i>
                                 <input id="password" type="password" className="validate" />
                                 <label htmlFor="password">Password</label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col-md-4 col-md-offset-4">
+                                <i className="material-icons prefix">account_balance</i>
+                                <select id="type" placeholder="I am a...">
+                                    <option>Resident/Citizen</option>
+                                    <option>Government</option>
+                                </select>
                             </div>
                         </div>
                         <div className="row">

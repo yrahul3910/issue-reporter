@@ -3,6 +3,7 @@ import bcrypt
 import pymongo
 import jwt
 import re
+import time
 
 # Use the dist/ directory as the static files directory.
 app = Flask(__name__,
@@ -81,7 +82,8 @@ def user_signup():
         # Generate a token and respond with a 200 OK.
         encoded = jwt.encode({
             'username': username,
-            'name': name
+            'name': name,
+            'type': user_type
         }, secret, headers={
             'expiresIn': '1 day'
         })
@@ -137,7 +139,8 @@ def user_login():
             # Auth successful
             encoded = jwt.encode({
                 'username': username,
-                'name': matched_user['name']
+                'name': matched_user['name'],
+                'type': user_type
             }, secret, headers={
                 'expiresIn': '1 day'
             })
@@ -148,6 +151,46 @@ def user_login():
             # Auth failure
             return Response('{"success":false,"error":"Invalid credentials"}',
                             status=401, mimetype='application/json')
+
+
+@app.route('/api/issues/new', methods=['POST'])
+def new_issue():
+    """
+    Creates a new issue. Accepts a request with
+    {
+        token: string,
+        title: string,
+        org: string,
+        location: string
+    }
+    Additionally, the server adds two fields:
+        date: <current date>
+        status: "New"
+    """
+    data = request.get_json()
+    token = data['token']
+    title = data['title']
+    org = data['org']
+    location = data['location']
+    date = int(time.time() * 1000)
+    status = 'New'
+    user = jwt.decode(token, secret)
+
+    if user['type'] == 'org':
+        return Response('{"success": false, "error": "Not allowed."}',
+                        status=403, mimetype='application/json')
+    issue_col = db.get_collection('issues')
+    issue_col.insert_one({
+        'username': user['username'],
+        'title': title,
+        'org': org,
+        'location': location,
+        'date': date,
+        'status': status
+    })
+
+    return Response('{"success": true}', status=200, 
+                    mimetype='application/json')
 
 
 @app.route('/', defaults={'path': 'index.html'})
