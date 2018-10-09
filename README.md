@@ -23,11 +23,8 @@ These are in the `components` folder.
 
 ## NPM Scripts
 The scripts are used as below:
-* `server`: Starts the dev server. This runs `server.js`, which uses `webpack-dev-middleware` to transpile code and `Express` for the server. This also uses the `compression` package to gzip files before sending to the client. `babel-node` transpiles the code before the server is started.
 * `lint:watch`: Runs `lint`, which lints the code, and watches for changes in code and re-runs `lint` each time.
-* `start`: Uses `npm-run-all` to parallely run the above two scripts.
-* `localtunnel`: Uses the `localtunnel` package to share work-in-progress.
-* `share`: Similar to `start`, but also runs `localtunnel`.
+* `build`: Builds the `dist` files to be served by Flask.
 
 ## Configuration Files
 * `.babelrc` is used for transpiling React and ES6/ES7 code to plain JS.
@@ -38,18 +35,17 @@ The scripts are used as below:
 `api.js` is a wrapper that sends the required request to the Dandelion NLP API.
 
 # Database
-mLab is used for hosting the MongoDB database. There are 3 collections:
+mLab is used for hosting the MongoDB database. There are 2 collections:
 
 ## Issues
 The format of a document in this collection is:
 ```
 {
     _id: Auto generated id,
-    uid: The _id of the user who opened the issue,
+    username: The username of the user who opened the issue,
     title: A title given by the user,
-    org: The organization the issue is submitted to (the _id),
+    org: The organization the issue is submitted to (the username),
     location: The area the issue is reported in,
-    duplicates: An array with the IDs of other duplicate issues,
     date: The date the issue was opened,
     status: A string that the organization can set to update the status
 }
@@ -62,7 +58,12 @@ This is used for both users and organizations. Format is:
     _id: Auto generated id,
     name: The name of the user/organization,
     username: Username chosen by the user/organization,
-    pwd: The password, encrypted by bcrypt,
-    dp: The profile picture of the user/organization, in base64
+    pwd: The password, encrypted by bcrypt
 }
 ```
+
+# TODO
+This is still a work in progress. As such, there's still a lot left to be done.
+* The `Register` component needs to accept the user type and send that accordingly.
+* Need to implement a dashboard for users--this should allow them to send new issues, and view the status of issues they opened. It need not show them duplicates.
+* Need to implement the core algorithm, LSA.

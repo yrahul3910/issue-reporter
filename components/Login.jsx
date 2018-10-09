@@ -13,10 +13,16 @@ class Login extends React.Component {
     }
 
     click() {
+        let type = $("#type").val();
+        let utype;
+        if (type == "Resident/Citizen")
+            utype = "user";
+        else
+            utype = "org";
         $.post("http://localhost:5000/api/user/login", {
             username: $("#username").val(),
             password: $("#password").val(),
-            type: $("#type").val()
+            type: utype
         }).done(data => {              
             $("#message").html("<span style='color: green'>Success</span>");
 
