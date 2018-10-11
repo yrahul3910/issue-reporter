@@ -65,5 +65,5 @@ This is used for both users and organizations. Format is:
 # TODO
 This is still a work in progress. As such, there's still a lot left to be done.
 * Need to implement a dashboard for users--this should allow them to send new issues, and view the status of issues they opened. It need not show them duplicates.
-* Need to implement the core algorithm, LSA. In this regard, [this repo](https://github.com/chrisjmccormick/LSA_Classification) and [this one](https://github.com/kernelmachine/pyLSA/blob/master/lsa.py) seem useful. The second seems to do better and implements it fully, while the first may be easier to understand. However, the second one relies on web scraping, and may not work in this particular use case.
+* Need to implement the core algorithm, LSA. In this regard, [this repo](https://github.com/chrisjmccormick/LSA_Classification) and [this one](https://github.com/kernelmachine/pyLSA/blob/master/lsa.py) seem useful. The second seems to do better and implements it fully, while the first may be easier to understand. However, the second one relies on web scraping, and may not work in this particular use case. Another interesting repository is [this one](https://github.com/llazzaro/lsa_python).
 * Need to finish working on the dashboard for the organization
