@@ -1,5 +1,5 @@
 # Issue Reporter
-An issue reporting system, which filters out duplicate issues.
+An issue reporting system, which filters out duplicate issues. LSA implementation inspired by [Chris McCormick's repository](https://github.com/chrisjmccormick/LSA_Classification).
 
 # Project Structure
 The code is structured as follows.
@@ -64,6 +64,6 @@ This is used for both users and organizations. Format is:
 
 # TODO
 This is still a work in progress. As such, there's still a lot left to be done.
-* The `Register` component needs to accept the user type and send that accordingly.
 * Need to implement a dashboard for users--this should allow them to send new issues, and view the status of issues they opened. It need not show them duplicates.
-* Need to implement the core algorithm, LSA.
+* Need to implement the core algorithm, LSA. In this regard, [this repo](https://github.com/chrisjmccormick/LSA_Classification) and [this one](https://github.com/kernelmachine/pyLSA/blob/master/lsa.py) seem useful. The second seems to do better and implements it fully, while the first may be easier to understand. However, the second one relies on web scraping, and may not work in this particular use case.
+* Need to finish working on the dashboard for the organization

@@ -15,11 +15,17 @@ class Register extends React.Component {
     click() {
         let name = $("#name").val();
         let username = $("#username").val();
+        let type = $("#type").val();
+        let utype;
+        if (type == "Resident/Citizen")
+            utype = "user";
+        else
+            utype = "org";
         $.post("http://localhost:5000/api/signup", {
             username,
             password: $("#password").val(),
             name,
-            type: "org"
+            type: utype
         }, (data) => {               
             $("#message").html("<span style='color: green'>Success!</span>");
             this.props.toggleLogin({
@@ -65,6 +71,15 @@ class Register extends React.Component {
                                 <i className="material-icons prefix">lock_outline</i>
                                 <input id="password" type="password" className="validate" />
                                 <label htmlFor="password">Password</label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col-md-4 col-md-offset-4">
+                                <i className="material-icons prefix">account_balance</i>
+                                <select id="type" placeholder="I am a...">
+                                    <option>Resident/Citizen</option>
+                                    <option>Government</option>
+                                </select>
                             </div>
                         </div>
                         <div className="row">
