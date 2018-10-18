@@ -1,5 +1,5 @@
 # Issue Reporter
-An issue reporting system, which filters out duplicate issues. LSA implementation inspired by [Chris McCormick's repository](https://github.com/chrisjmccormick/LSA_Classification).
+An issue reporting system, which filters out duplicate issues. LSA implementation inspired by [Chris McCormick's repository](https://github.com/chrisjmccormick/LSA_Classification). [This repo](https://github.com/kernelmachine/pyLSA/blob/master/lsa.py) and [this one](https://github.com/llazzaro/lsa_python) are also worth looking at. However, the `kernelmachine/pyLSA` one seems to rely on web scraping.
 
 # Project Structure
 The code is structured as follows.
@@ -30,9 +30,6 @@ The scripts are used as below:
 * `.babelrc` is used for transpiling React and ES6/ES7 code to plain JS.
 * `.editorconfig` enforces indenting and other configurations for editors and IDEs.
 * `.eslintrc.json` is the ESLint config file.
-
-## Other Files
-`api.js` is a wrapper that sends the required request to the Dandelion NLP API.
 
 # Database
 mLab is used for hosting the MongoDB database. There are 2 collections:
@@ -65,5 +62,4 @@ This is used for both users and organizations. Format is:
 # TODO
 This is still a work in progress. As such, there's still a lot left to be done.
 * Need to implement a dashboard for users--this should allow them to send new issues, and view the status of issues they opened. It need not show them duplicates.
-* Need to implement the core algorithm, LSA. In this regard, [this repo](https://github.com/chrisjmccormick/LSA_Classification) and [this one](https://github.com/kernelmachine/pyLSA/blob/master/lsa.py) seem useful. The second seems to do better and implements it fully, while the first may be easier to understand. However, the second one relies on web scraping, and may not work in this particular use case. Another interesting repository is [this one](https://github.com/llazzaro/lsa_python).
 * Need to finish working on the dashboard for the organization

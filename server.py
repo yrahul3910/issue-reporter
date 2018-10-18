@@ -131,11 +131,13 @@ def user_login():
     }
     ```
     """
+    # Get request data
     data = request.get_json()
     username = data['username']
     pwd = data['password']
     user_type = data['type']
 
+    # Find the user
     user_coll = db.get_collection('users')
     matched_user = user_coll.find_one({
         'username': username,
@@ -183,19 +185,25 @@ def new_issue():
         date: <current date>
         status: "New"
     """
+    # Get request data
     data = request.get_json()
     token = data['token']
     title = data['title']
     org = data['org']
     desc = data['desc']
     location = data['location']
+
+    # Set more parameters and decode user from token
     date = int(time.time() * 1000)
     status = 'New'
     user = jwt.decode(token, secret)
 
+    # Only users may submit new issues
     if user['type'] == 'org':
         return Response('{"success": false, "error": "Not allowed."}',
                         status=403, mimetype='application/json')
+
+    # Insert issue into the database
     issue_col = db.get_collection('issues')
     issue_col.insert_one({
         'username': user['username'],
@@ -242,20 +250,26 @@ def filter_issues():
     The `title` field is simply the `title` of the first document in
     the similarity collection.
     """
+    # Get request data
     data = request.get_json()
     token = data['token']
     threshold = data['threshold']
+
+    # Decode the user from the token
     user = jwt.decode(token, secret)
 
+    # Only organizations may access this endpoint
     if user['type'] == 'user':
         return Response('{"success": false, "error": "Not allowed."}',
                         status=403, mimetype='application/json')
 
+    # Get the issues for this organization
     issue_col = db.get_collection('issues')
     issues = issue_col.find({
         'username': user['username']
     })
 
+    # Initialize the LSA object and train
     lsa = LSA()
     lsa.vectorize_data()
 
@@ -263,12 +277,19 @@ def filter_issues():
     for i in range(len(issues)):
         issues_i = []  # issues similar to issue i
         doc1 = issues[i]
+        issues_i.append({
+            'title': doc1['title'],
+            'desc': doc1['desc'],
+            'location': doc1['location']
+        })
         v1 = lsa.transform([doc1['desc']])
 
         for j in range(i + 1, len(issues)):
             doc2 = issues[j]
             v2 = lsa.transform([doc2['desc']])
 
+            # If similarity of the two documents is above the threshold,
+            # then add it to the list.
             similarity = lsa.cosine_similarity(v1, v2)
             if similarity >= threshold:
                 issues_i.append({
@@ -277,11 +298,11 @@ def filter_issues():
                     'location': doc2['location']
                 })
 
-        if len(issues_i) > 0:
-            filtered.append({
-                'issues': issues_i,
-                'title': issues_i[0]['title']
-            })
+        # Create the final list of all filtered issues.
+        filtered.append({
+            'issues': issues_i,
+            'title': issues_i[0]['title']
+        })
 
     return Response('{"success": true, "filtered":' + str(filtered) + '}',
                     status=200, mimetype='application/json')
