@@ -35,17 +35,21 @@ class LSA:
         return data
 
 
-    def vectorize_data(self, data) -> tuple:
+    def vectorize_data(self, data=None) -> tuple:
         """
         Performs tf-idf vectorization on data and SVD on the vectors.
 
         Args:
             data: A tuple, X_train, Y_train, X_test, Y_test in that order.
+                  If None, uses internally loaded data.
 
         Returns:
             Tuple (X_train_lsa, X_test_lsa, pipeline): Normalized LSA vectors
                 and Pipeline object to transform future documents
         """
+        if data is None:
+            data = self.data
+
         stop_words = stopwords.words('english')
 
         # TfidfVectorizer parameters:
@@ -122,4 +126,4 @@ class LSA:
         if len(v2.shape) == 1:
             v2 = v2.reshape(-1, 1)
 
-        return cosine_similarity(vec1, vec2)
+        return np.squeeze(cosine_similarity(vec1, vec2))
