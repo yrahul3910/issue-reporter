@@ -19,7 +19,6 @@ class LSA:
         self.data = self.load_data()
         print('Initialization complete.')
 
-
     def load_data(self) -> tuple:
         """
         Loads the Reuters dataset.
@@ -33,7 +32,6 @@ class LSA:
 
         print('done!')
         return data
-
 
     def vectorize_data(self, data=None) -> tuple:
         """
@@ -63,7 +61,7 @@ class LSA:
         #  - normalizes the tf-idf vectors to length 1, using L2 norm.
         print('Obtaining tf-idf vectors...', end='')
         vectorizer = TfidfVectorizer(max_df=0.6, max_features=50000,
-                                    min_df=3, stop_words=stop_words)
+                                     min_df=3, stop_words=stop_words)
 
         X_train_tfidf = vectorizer.fit_transform(data[0])
 
@@ -89,7 +87,6 @@ class LSA:
 
         return X_train_lsa, X_test_lsa, pipeline
 
-
     def transform(self, vec, pipeline=None) -> list:
         """
         Uses the trained pipeline to transform a new vector.
@@ -98,7 +95,7 @@ class LSA:
             pipeline: A sklearn Pipeline object with trained objects.
                       If None, uses the trained pipeline internally.
             vec: The vector to transform
-        
+
         Returns:
             tfidf: Normalized tf-idf vector
         """
@@ -107,14 +104,13 @@ class LSA:
 
         return pipeline.transform(vec)
 
-
     def cosine_similarity(self, vec1, vec2) -> float:
         """
         Returns the cosine similarity of two vectors.
 
         Args:
             vec1, vec2: The two vectors
-        
+
         Returns:
             similarity: The cosine similarity of the two vectors.
         """
