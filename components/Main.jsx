@@ -7,20 +7,30 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props);
+        this.toggleLogin = this.toggleLogin.bind(this);
+        this.state = { user: null };
+    }
+
+    toggleLogin(user) {
+        this.setState({ user });
+    } 
+
     render() {
         return (
             <Switch>
                 <Route exact path="/" render={ () =>
-                    <MainPage />
+                    <MainPage user={this.state.user} />
                 } />
                 <Route exact path="/dashboard" render={() =>
-                    <IssuePage />
+                    <IssuePage user={this.state.user} />
                 } />
-                <Route exact path="/login" render={() =>
-                    <Login />
+                <Route exact path="/login" render={(props) =>
+                    <Login {...props} toggleLogin={this.toggleLogin} />
                 } />
-                <Route exact path="/register" render={() =>
-                    <Register />
+                <Route exact path="/register" render={(props) =>
+                    <Register {...props} toggleLogin={this.toggleLogin} />
                 } />
             </Switch>
         );

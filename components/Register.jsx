@@ -15,28 +15,42 @@ class Register extends React.Component {
     click() {
         let name = $("#name").val();
         let username = $("#username").val();
-        let type = $("#type").val();
         let utype;
-        if (type == "Resident/Citizen")
+        if ($("#res").checked)
             utype = "user";
         else
             utype = "org";
-        $.post("http://localhost:5000/api/signup", {
-            username,
-            password: $("#password").val(),
-            name,
-            type: utype
-        }, (data) => {               
-            $("#message").html("<span style='color: green'>Success!</span>");
-            this.props.toggleLogin({
-                name,
-                username
-            });
+        
+        (async () => {
+            try {
+                const response = await fetch("/api/user/signup", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password: $("#password").val(),
+                        name,
+                        type: utype
+                    })
+                })
 
-            localStorage.setItem("token", data.token);
-        }).fail(res => {
-            $("#message").html("<span style='color: red'>Username already exists!</span>");
-        });
+                const content = await response.json();
+                $("#message").html("<span style='color: green'>Success!</span>");
+                this.props.toggleLogin({
+                    name,
+                    username
+                });
+    
+                localStorage.setItem("token", content.token);
+                console.log(this.props);
+                this.props.history.push("/");
+            } catch(e) {
+                $("#message").html("<span style='color: red'>Username already exists!</span>");
+            }            
+        })();
     }
 
     render() {
@@ -74,17 +88,27 @@ class Register extends React.Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col-md-4 col-md-offset-4">
+                            <div className="input-field col-md-1 col-md-offset-4">
                                 <i className="material-icons prefix">account_balance</i>
-                                <select id="type" placeholder="I am a...">
-                                    <option>Resident/Citizen</option>
-                                    <option>Government</option>
-                                </select>
+                            </div>
+                            <div className="input-field col-md-4">
+                                <p>
+                                    <label>
+                                        <input name="group1" id="res" type="radio" checked />
+                                        <span>Resident/Citizen</span>
+                                    </label>
+                                </p>
+                                <p>
+                                    <label>
+                                        <input name="group1" id="org" type="radio" />
+                                        <span>Organization</span>
+                                    </label>
+                                </p>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-4 col-md-offset-4">
-                                <a className="btn waves-effect waves-light">SIGN UP</a>
+                                <a className="btn waves-effect waves-light" onClick={this.click}>SIGN UP</a>
                             </div>
                         </div>
                     </form>
