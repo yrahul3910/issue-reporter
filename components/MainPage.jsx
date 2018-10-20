@@ -1,8 +1,36 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import Banner from "./Banner.jsx";
 
 class MainPage extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem("token");
+        if (token) {
+            (async () => {
+                const response = await fetch("/api/user/whoami", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token
+                    })
+                });
+                const data = await response.json();
+                const { user } = data;
+
+                this.props.toggleLogin(user);
+                this.props.history.push("/dashboard");
+            })();
+        }
+    }
+
     render() {
         return (
             <div>
@@ -22,5 +50,9 @@ class MainPage extends React.Component {
         );
     }
 }
+
+MainPage.propTypes = {
+    toggleLogin: PropTypes.func.isRequired
+};
 
 export default MainPage;

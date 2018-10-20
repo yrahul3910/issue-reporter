@@ -168,6 +168,28 @@ def user_login():
                             status=401, mimetype='application/json')
 
 
+@app.route('/api/user/whoami', methods=['POST'])
+def user_whoami():
+    """
+    Decodes the user's JWT and returns JSON details. Accepts
+    {
+        token: string
+    }
+    and returns
+    {
+        success: boolean
+        user?: string (if successful)
+    }
+    """
+    # Get request data
+    data = request.get_json()
+    token = data['token']
+    user = jwt.decode(token, secret)
+
+    return Response('{"success":true,"user":"' + str(user) + '"}',
+                    status=200, mimetype='application/json')
+
+
 @app.route('/api/issues/new', methods=['POST'])
 def new_issue():
     """

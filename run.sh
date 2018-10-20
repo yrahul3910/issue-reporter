@@ -2,7 +2,7 @@
 echo '-----------------------------------'
 echo 'Installing packages'
 echo '-----------------------------------'
-npm i
+yarn
 
 echo '-----------------------------------'
 echo 'Linting Python code'

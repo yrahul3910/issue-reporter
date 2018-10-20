@@ -1,5 +1,5 @@
 import React from "react";
-import {Switch, Route} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import MainPage from "./MainPage.jsx";
 import IssuePage from "./IssuePage.jsx";
@@ -15,13 +15,13 @@ class Main extends React.Component {
 
     toggleLogin(user) {
         this.setState({ user });
-    } 
+    }
 
     render() {
         return (
             <Switch>
-                <Route exact path="/" render={ () =>
-                    <MainPage user={this.state.user} />
+                <Route exact path="/" render={(props) =>
+                    <MainPage {...props} toggleLogin={this.toggleLogin} />
                 } />
                 <Route exact path="/dashboard" render={() =>
                     <IssuePage user={this.state.user} />

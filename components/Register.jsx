@@ -41,12 +41,12 @@ class Register extends React.Component {
                 $("#message").html("<span style='color: green'>Success!</span>");
                 this.props.toggleLogin({
                     name,
-                    username
+                    username,
+                    type: utype
                 });
     
                 localStorage.setItem("token", content.token);
-                console.log(this.props);
-                this.props.history.push("/");
+                this.props.history.push("/dashboard");
             } catch(e) {
                 $("#message").html("<span style='color: red'>Username already exists!</span>");
             }            
@@ -62,7 +62,9 @@ class Register extends React.Component {
                     </div>
                 </nav>
                 <div className="row" style={{marginTop: "40px"}}>
-                    <div id="message"></div>
+                    <div className="col-md-4 col-md-offset-4">
+                        <div id="message"></div>
+                    </div>
                 </div>
                 <div className="row" style={{marginTop: "10px"}} >
                     <form>

@@ -13,38 +13,58 @@ class Login extends React.Component {
     }
 
     click() {
-        let type = $("#type").val();
         let utype;
-        if (type == "Resident/Citizen")
+        let username = $("#username").val();
+        if ($("#res").checked)
             utype = "user";
         else
             utype = "org";
-        $.post("http://localhost:5000/api/user/login", {
-            username: $("#username").val(),
-            password: $("#password").val(),
-            type: utype
-        }).done(data => {              
-            $("#message").html("<span style='color: green'>Success</span>");
 
-            localStorage.setItem("token", data.token);
-            this.props.toggleLogin(data.user);
-        }).fail(response => {
-            $("#message").html("<span style='color: red'>Authentication failed</span>");
-        });
+        (async () => {
+            try {
+                const response = await fetch("/api/user/login", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password: $("#password").val(),
+                        type: utype
+                    })
+                })
+
+                const content = await response.json();
+                $("#message").html("<span style='color: green'>Success!</span>");
+                this.props.toggleLogin({
+                    name,
+                    username,
+                    type: utype
+                });
+
+                localStorage.setItem("token", content.token);
+                this.props.history.push("/dashboard");
+            } catch (e) {
+                $("#message").html("<span style='color: red'>Authentication failed.</span>");
+            }
+        })();
     }
 
     render() {
         return (
             <div>
                 <nav>
-                    <div className="nav-wrapper" style={{backgroundColor: "teal"}} >
+                    <div className="nav-wrapper" style={{ backgroundColor: "teal" }} >
                         <a href="#" className="brand-logo left-shift">Issue Reporter</a>
                     </div>
                 </nav>
-                <div className="row" style={{marginTop: "40px"}}>
-                    <div id="message"></div>
+                <div className="row" style={{ marginTop: "40px" }}>
+                    <div className="col-md-4 col-md-offset-4">
+                        <div id="message"></div>
+                    </div>
                 </div>
-                <div className="row" style={{marginTop: "10px"}} >
+                <div className="row" style={{ marginTop: "10px" }} >
                     <form>
                         <div className="row">
                             <div className="input-field col-md-4 col-md-offset-4">
@@ -61,17 +81,27 @@ class Login extends React.Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col-md-4 col-md-offset-4">
+                            <div className="input-field col-md-1 col-md-offset-4">
                                 <i className="material-icons prefix">account_balance</i>
-                                <select id="type" placeholder="I am a...">
-                                    <option>Resident/Citizen</option>
-                                    <option>Government</option>
-                                </select>
+                            </div>
+                            <div className="input-field col-md-4">
+                                <p>
+                                    <label>
+                                        <input name="group1" id="res" type="radio" checked />
+                                        <span>Resident/Citizen</span>
+                                    </label>
+                                </p>
+                                <p>
+                                    <label>
+                                        <input name="group1" id="org" type="radio" />
+                                        <span>Organization</span>
+                                    </label>
+                                </p>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-md-4 col-md-offset-4">
-                                <a className="btn waves-effect waves-light">LOG IN</a>
+                                <a className="btn waves-effect waves-light" onClick={this.click}>LOG IN</a>
                             </div>
                         </div>
                     </form>
