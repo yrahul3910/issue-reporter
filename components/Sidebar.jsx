@@ -14,7 +14,7 @@ class Sidebar extends React.Component {
 
     render() {
         return (
-            <ul className="side-nav fixed teal white-text center" style={{transform: "translateX(0%)"}}>
+            <ul className="sidenav fixed teal white-text center" style={{width: "100%", height: "100vh"}}>
                 <li style={{paddingTop: "20px"}}>
                     <img src={this.props.dp} style={{width: "100px", height: "100px"}} className="round" />
                 </li>
