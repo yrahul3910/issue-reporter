@@ -270,7 +270,8 @@ def filter_issues():
     }
     ```
     The `title` field is simply the `title` of the first document in
-    the similarity collection.
+    the similarity collection. A higher threshold will yield more
+    documents.
     """
     # Get request data
     data = request.get_json()
@@ -287,9 +288,9 @@ def filter_issues():
 
     # Get the issues for this organization
     issue_col = db.get_collection('issues')
-    issues = issue_col.find({
-        'username': user['username']
-    })
+    issues = list(issue_col.find({
+        'org': user['username']
+    }))
 
     # Initialize the LSA object and train
     lsa = LSA()
@@ -313,7 +314,8 @@ def filter_issues():
             # If similarity of the two documents is above the threshold,
             # then add it to the list.
             similarity = lsa.cosine_similarity(v1, v2)
-            if similarity >= threshold:
+            print('Similarity:', similarity)
+            if similarity < threshold:
                 issues_i.append({
                     'title': doc2['title'],
                     'desc': doc2['desc'],
@@ -321,12 +323,11 @@ def filter_issues():
                 })
 
         # Create the final list of all filtered issues.
-        filtered.append({
-            'issues': issues_i,
-            'title': issues_i[0]['title']
-        })
+        filtered.extend(issues_i)
 
-    return Response('{"success": true, "filtered":' + str(filtered) + '}',
+    # Remove duplicate dicts from the list.
+    filtered = [dict(t) for t in set([tuple(d.items()) for d in filtered])]
+    return Response('{"success": true, "filtered":"' + str(filtered) + '"}',
                     status=200, mimetype='application/json')
 
 
