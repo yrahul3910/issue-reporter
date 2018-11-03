@@ -12,34 +12,32 @@ class Dashboard extends React.Component {
         this.state = { issues: [] }
     }
 
-    componentDidMount() {
-        (async () => {
-            const response = await fetch("/api/issues/filter", {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token: localStorage.getItem("token"),
-                    threshold: 0.6
-                })
-            });
+    async componentDidMount() {
+        const response = await fetch("/api/issues/filter", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                threshold: 0.6
+            })
+        });
 
-            const issues = await response.json();
-            this.setState({ issues });
-        })();
+        const issues = await response.json();
+        this.setState({ issues });
     }
 
     render() {
-        let issues = this.state.issues.map((issues, i) => { 
+        let issues = this.state.issues.map((issues, i) => {
             let issue = issues.issue;
             <IssueCard key={i}
-                    title={issue.title}
-                    location={issue.location}
-                    desc={issue.desc}
-                    id={i.toString()}
-                    duplicates={issues.duplicates} />
+                title={issue.title}
+                location={issue.location}
+                desc={issue.desc}
+                id={i.toString()}
+                duplicates={issues.duplicates} />
         });
         return (
             <div>

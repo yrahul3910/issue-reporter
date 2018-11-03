@@ -187,8 +187,13 @@ def user_whoami():
     token = data['token']
     user = jwt.decode(token, secret)
 
-    return Response('{"success":true,"user":"' + str(user) + '"}',
-                    status=200, mimetype='application/json')
+    response = {
+        'success': True,
+        'user': user
+    }
+
+    return Response(json.dumps(response), status=200,
+                    mimetype='application/json')
 
 
 @app.route('/api/issues/new', methods=['POST'])
@@ -337,7 +342,6 @@ def filter_issues():
                 'max_similarity': max_similarity
             })
 
-    # Remove duplicate dicts from the list.
     return Response('{"success": true, "filtered":"' + json.dumps(filtered) +
                     '"}', status=200, mimetype='application/json')
 

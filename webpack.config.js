@@ -2,6 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+    mode: "development",
+    devtool: "inline-source-map",
     entry: [
         "babel-polyfill",
         path.resolve(__dirname, "src/index")
@@ -18,11 +20,17 @@ module.exports = {
         })
     ],
     module: {
-        loaders: [
-            {test: /\.jsx$/, exclude: /node_modules/, loaders: ["babel-loader"]},
-            {test: /\.js$/, exclude: /node_modules/, loaders: ["babel-loader"]},
-            {test: /\.css$/, loaders: ["style-loader","css-loader"]},
-            {test: /\.sass$/, loaders: ["sass-loader"]}
+        rules: [
+            {test: /\.jsx$/, exclude: /node_modules/, use: "babel-loader"},
+            {test: /\.js$/, exclude: /node_modules/, use: "babel-loader"},
+            {test: /\.css$/, use: [
+                {
+                    loader: "style-loader"
+                },
+                {
+                    loader: "css-loader"
+                }]},
+            {test: /\.sass$/, use: "sass-loader"}
         ]
     }
 };

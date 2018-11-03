@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Banner from "./Banner.jsx";
 
 class MainPage extends React.Component {
@@ -9,38 +9,35 @@ class MainPage extends React.Component {
         this.state = { name: null };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // If logged in, take user to dashboard
         const token = localStorage.getItem("token");
         if (token) {
-            (async () => {
-                const response = await fetch("/api/user/whoami", {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        token
-                    })
-                });
-                const data = await response.json();
-                const { user } = data;
+            const response = await fetch("/api/user/whoami", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token
+                })
+            });
+            const data = await response.json();
+            let { user } = data;
 
-                this.props.toggleLogin(user);
-                console.log(user);
-                this.setState({ name: user.name })
-                console.log(this.state);
-            })();
+            this.props.toggleLogin(user);
+            this.setState({ name: user.name })
         }
     }
 
     render() {
         let loginButton;
+        console.log('in render: ', this.state.name);
         if (!this.state.name)
             loginButton = (
                 <div className="center">
-                    <Link to="/login" className="btn waves-effect waves-light white-text" style={{marginRight: "40px"}} >
+                    <Link to="/login" className="btn waves-effect waves-light white-text" style={{ marginRight: "40px" }} >
                         LOG IN
                     </Link>
                     <Link to="/register" className="btn waves-effect waves-light white-text" >
@@ -51,7 +48,8 @@ class MainPage extends React.Component {
         else
             loginButton = (
                 <div className="center">
-                    <Link to="/dashboard" className="teal-text">
+                    <Link to="/dashboard" className="teal-text"
+                        style={{ fontSize: 16, fontWeight: 400 }}>
                         Welcome back, {this.state.name}! Continue to your dashboard.
                     </Link>
                 </div>
@@ -60,7 +58,7 @@ class MainPage extends React.Component {
             <div>
                 <Banner />
                 <div className="left-shift">
-                    <h2 style={{color: "#404040"}}>Get started today. It&apos;s free, forever.</h2>
+                    <h2 style={{ color: "#404040" }}>Get started today. It&apos;s free, forever.</h2>
                 </div>
                 {loginButton}
             </div>
