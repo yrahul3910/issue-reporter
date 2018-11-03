@@ -5,6 +5,7 @@ import pymongo
 import jwt
 import re
 import time
+import json
 
 # Use the dist/ directory as the static files directory.
 app = Flask(__name__,
@@ -296,16 +297,23 @@ def filter_issues():
     lsa = LSA()
     lsa.vectorize_data()
 
-    filtered = []
+    filtered = []  # List of filtered issues
+    covered = []  # List of issues already covered
     for i in range(len(issues)):
-        issues_i = []  # issues similar to issue i
+        issue_i = None
+        max_similarity = 0
         doc1 = issues[i]
-        issues_i.append({
-            'title': doc1['title'],
-            'desc': doc1['desc'],
-            'location': doc1['location']
-        })
+
+        if i not in covered:
+            issue_i = {
+                'title': doc1['title'],
+                'desc': doc1['desc'],
+                'location': doc1['location']
+            }
+            covered.append(i)
+
         v1 = lsa.transform([doc1['desc']])
+        duplicate_count = 0
 
         for j in range(i + 1, len(issues)):
             doc2 = issues[j]
@@ -314,21 +322,24 @@ def filter_issues():
             # If similarity of the two documents is above the threshold,
             # then add it to the list.
             similarity = lsa.cosine_similarity(v1, v2)
-            print('Similarity:', similarity)
-            if similarity < threshold:
-                issues_i.append({
-                    'title': doc2['title'],
-                    'desc': doc2['desc'],
-                    'location': doc2['location']
-                })
+     
+            if similarity >= threshold or j in covered:
+                if similarity > max_similarity:
+                    max_similarity = similarity
+                covered.append(j)
+                duplicate_count += 1
 
         # Create the final list of all filtered issues.
-        filtered.extend(issues_i)
+        if issue_i is not None:
+            filtered.append({
+                'issue': issue_i,
+                'duplicates': duplicate_count,
+                'max_similarity': max_similarity
+            })
 
     # Remove duplicate dicts from the list.
-    filtered = [dict(t) for t in set([tuple(d.items()) for d in filtered])]
-    return Response('{"success": true, "filtered":"' + str(filtered) + '"}',
-                    status=200, mimetype='application/json')
+    return Response('{"success": true, "filtered":"' + json.dumps(filtered) +
+                    '"}', status=200, mimetype='application/json')
 
 
 @app.route('/', defaults={'path': 'index.html'})

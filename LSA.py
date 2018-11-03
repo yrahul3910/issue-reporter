@@ -12,12 +12,18 @@ class LSA:
     """
     Implements Latent Semantic Analysis.
     """
-    def __init__(self):
+    def __init__(self, verbose=False):
         """
         Initializes the LSA object.
+
+        Args:
+            verb: Boolean. If True, prints debug information.
         """
+        self.verbose = verbose
         self.data = self.load_data()
-        print('Initialization complete.')
+
+        if self.verbose:
+            print('Initialization complete.')
 
     def load_data(self) -> tuple:
         """
@@ -26,20 +32,26 @@ class LSA:
         Returns:
             data: tuple, X_train, Y_train, X_test, Y_test in that order.
         """
-        print('Loading data...', end='')
+        if self.verbose:
+            print('Loading data...', end='')
+
         with open('raw_text_dataset.pickle', 'rb') as f:
             data = pickle.load(f)
 
-        print('done!')
+        if self.verbose:
+            print('done!')
+
         return data
 
-    def vectorize_data(self, data=None) -> tuple:
+    def vectorize_data(self, data=None, dimensions=100) -> tuple:
         """
         Performs tf-idf vectorization on data and SVD on the vectors.
 
         Args:
             data: A tuple, X_train, Y_train, X_test, Y_test in that order.
                   If None, uses internally loaded data.
+            dimensions: An integer. This is the dimensionality that SVD
+                    will reduce the vectors to.
 
         Returns:
             Tuple (X_train_lsa, X_test_lsa, pipeline): Normalized LSA vectors
@@ -59,24 +71,34 @@ class LSA:
         #  - select the 50k most frequently words in the corpus
         #    (max_features = 50000)
         #  - normalizes the tf-idf vectors to length 1, using L2 norm.
-        print('Obtaining tf-idf vectors...', end='')
+        if self.verbose:
+            print('Obtaining tf-idf vectors...', end='')
+
         vectorizer = TfidfVectorizer(max_df=0.6, max_features=50000,
                                      min_df=3, stop_words=stop_words)
 
         X_train_tfidf = vectorizer.fit_transform(data[0])
 
         # Perform SVD, keeping 100 dimensions
-        print('done!\nPerforming SVD...', end='')
+        if self.verbose:
+            print('done!\nPerforming SVD...', end='')
+
         svd = TruncatedSVD(100)
         X_train_svd = svd.fit_transform(X_train_tfidf)
-        print('done!')
-        print('Explained variance:', svd.explained_variance_ratio_)
+
+        if self.verbose:
+            print('done!')
+            print('Explained variance:', svd.explained_variance_ratio_)
 
         # Normalize the vectors using L2 norm in-place
-        print('Normalizing vectors...', end='')
+        if self.verbose:
+            print('Normalizing vectors...', end='')
+
         normalizer = Normalizer(copy=False)
         X_train_lsa = normalizer.fit_transform(X_train_svd)
-        print('done!')
+
+        if self.verbose:
+            print('done!')
 
         # Create a pipeline for test data
         pipeline = make_pipeline(vectorizer, svd, normalizer)

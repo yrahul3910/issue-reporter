@@ -64,4 +64,4 @@ This is still a work in progress. As such, there's still a lot left to be done.
 * Need to implement a dashboard for users--this should allow them to send new issues, and view the status of issues they opened. It need not show them duplicates.
 * Need to finish working on the dashboard for the organization. The layout seems to be okay for now. All that's left is to hook it up to call the server and render.  
 * `/dashboard` should probably be different for users and organizations. Maybe two different React components?  
-* Why does clicking `Home` in the `Dashboard` sidebar loop back to `/dashboard`?
+* `threshold` in `Dashboard.jsx` needs to be configurable.  

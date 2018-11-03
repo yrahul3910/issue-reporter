@@ -6,9 +6,11 @@ import Banner from "./Banner.jsx";
 class MainPage extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { name: null };
     }
 
     componentDidMount() {
+        // If logged in, take user to dashboard
         const token = localStorage.getItem("token");
         if (token) {
             (async () => {
@@ -26,18 +28,17 @@ class MainPage extends React.Component {
                 const { user } = data;
 
                 this.props.toggleLogin(user);
-                this.props.history.push("/dashboard");
+                console.log(user);
+                this.setState({ name: user.name })
+                console.log(this.state);
             })();
         }
     }
 
     render() {
-        return (
-            <div>
-                <Banner />
-                <div className="left-shift">
-                    <h2 style={{color: "#404040"}}>Get started today. It&apos;s free, forever.</h2>
-                </div>
+        let loginButton;
+        if (!this.state.name)
+            loginButton = (
                 <div className="center">
                     <Link to="/login" className="btn waves-effect waves-light white-text" style={{marginRight: "40px"}} >
                         LOG IN
@@ -46,6 +47,22 @@ class MainPage extends React.Component {
                         SIGN UP
                     </Link>
                 </div>
+            );
+        else
+            loginButton = (
+                <div className="center">
+                    <Link to="/dashboard" className="teal-text">
+                        Welcome back, {this.state.name}! Continue to your dashboard.
+                    </Link>
+                </div>
+            );
+        return (
+            <div>
+                <Banner />
+                <div className="left-shift">
+                    <h2 style={{color: "#404040"}}>Get started today. It&apos;s free, forever.</h2>
+                </div>
+                {loginButton}
             </div>
         );
     }

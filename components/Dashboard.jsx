@@ -9,9 +9,38 @@ class Dashboard extends React.Component {
     */
     constructor(props) {
         super(props);
+        this.state = { issues: [] }
+    }
+
+    componentDidMount() {
+        (async () => {
+            const response = await fetch("/api/issues/filter", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
+                    threshold: 0.6
+                })
+            });
+
+            const issues = await response.json();
+            this.setState({ issues });
+        })();
     }
 
     render() {
+        let issues = this.state.issues.map((issues, i) => { 
+            let issue = issues.issue;
+            <IssueCard key={i}
+                    title={issue.title}
+                    location={issue.location}
+                    desc={issue.desc}
+                    id={i.toString()}
+                    duplicates={issues.duplicates} />
+        });
         return (
             <div>
                 <div className="row">
@@ -22,14 +51,7 @@ class Dashboard extends React.Component {
                 <div>
                     <div>
                         <ul className="collection">
-                            <IssueCard title="This is a sample issue."
-                                location="JP Nagar"
-                                id="1"
-                                duplicates={2} />
-                            <IssueCard title="This is another issue."
-                                location="Kaggadasapura"
-                                id="2"
-                                duplicates={4} />
+                            {issues}
                         </ul>
                     </div>
                 </div>
@@ -39,7 +61,8 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-    issues: PropTypes.array.isRequired
+    issues: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 export default Dashboard;

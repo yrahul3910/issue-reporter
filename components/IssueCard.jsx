@@ -29,7 +29,8 @@ IssueCard.propTypes = {
     title: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
-    duplicates: PropTypes.number.isRequired
+    duplicates: PropTypes.number.isRequired,
+    desc: PropTypes.string.isRequired
 };
 
 export default IssueCard;
