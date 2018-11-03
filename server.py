@@ -322,7 +322,7 @@ def filter_issues():
             # If similarity of the two documents is above the threshold,
             # then add it to the list.
             similarity = lsa.cosine_similarity(v1, v2)
-     
+
             if similarity >= threshold or j in covered:
                 if similarity > max_similarity:
                     max_similarity = similarity
