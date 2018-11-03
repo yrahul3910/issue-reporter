@@ -144,4 +144,5 @@ class LSA:
         if len(v2.shape) == 1:
             v2 = v2.reshape(-1, 1)
 
-        return np.squeeze(cosine_similarity(vec1, vec2))
+        result = cosine_similarity(vec1, vec2)
+        return result[0][0]

@@ -342,8 +342,12 @@ def filter_issues():
                 'max_similarity': max_similarity
             })
 
-    return Response('{"success": true, "filtered":"' + json.dumps(filtered) +
-                    '"}', status=200, mimetype='application/json')
+    response = {
+        'success': True,
+        'filtered': json.dumps(filtered)
+    }
+    return Response(json.dumps(response), status=200, 
+                    mimetype='application/json')
 
 
 @app.route('/', defaults={'path': 'index.html'})
