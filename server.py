@@ -344,9 +344,9 @@ def filter_issues():
 
     response = {
         'success': True,
-        'filtered': json.dumps(filtered)
+        'filtered': filtered
     }
-    return Response(json.dumps(response), status=200, 
+    return Response(json.dumps(response), status=200,
                     mimetype='application/json')
 
 

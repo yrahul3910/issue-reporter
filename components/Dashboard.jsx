@@ -25,20 +25,21 @@ class Dashboard extends React.Component {
             })
         });
 
-        const issues = await response.json();
-        this.setState({ issues });
+        const data = await response.json();
+        this.setState({ issues: data.filtered });
     }
 
     render() {
-        let issues = this.state.issues.map((issues, i) => {
-            let issue = issues.issue;
-            <IssueCard key={i}
-                title={issue.title}
-                location={issue.location}
-                desc={issue.desc}
-                id={i.toString()}
-                duplicates={issues.duplicates} />
-        });
+        let issues = this.state.issues ? 
+            this.state.issues.map((issues, i) => {
+                let issue = issues.issue;
+                return <IssueCard key={i}
+                    title={issue.title}
+                    location={issue.location}
+                    desc={issue.desc}
+                    id={i.toString()}
+                    duplicates={issues.duplicates} />;
+            }) : <div></div>;
         return (
             <div>
                 <div className="row">
@@ -59,7 +60,7 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-    issues: PropTypes.array.isRequired,
+    issues: PropTypes.array,
     user: PropTypes.object.isRequired
 };
 

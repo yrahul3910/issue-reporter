@@ -17,7 +17,7 @@ class IssueCard extends React.Component {
             <li className="collection-item avatar">
                 <span className="title">{this.props.title}</span>
                 <p>{this.props.location} <br />
-                    <span style={{color: "red"}}>{this.props.duplicates + " "}duplicates</span>
+                    <span style={{color: "red"}}>{this.props.duplicates + " "}duplicate(s)</span>
                 </p>
                 <a href="#!" className="secondary-content"><i className="material-icons">arrow_forward</i></a>
             </li>

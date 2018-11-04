@@ -33,7 +33,6 @@ class MainPage extends React.Component {
 
     render() {
         let loginButton;
-        console.log('in render: ', this.state.name);
         if (!this.state.name)
             loginButton = (
                 <div className="center">
