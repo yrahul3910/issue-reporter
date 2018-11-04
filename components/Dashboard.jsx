@@ -10,6 +10,7 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = { issues: [] }
+        this.updateThreshold = this.updateThreshold.bind(this);
     }
 
     async componentDidMount() {
@@ -22,6 +23,23 @@ class Dashboard extends React.Component {
             body: JSON.stringify({
                 token: localStorage.getItem("token"),
                 threshold: 0.6
+            })
+        });
+
+        const data = await response.json();
+        this.setState({ issues: data.filtered });
+    }
+
+    async updateThreshold() {
+        const response = await fetch("/api/issues/filter", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                threshold: $("#threshold").val() / 100
             })
         });
 
@@ -45,6 +63,15 @@ class Dashboard extends React.Component {
                 <div className="row">
                     <div className="center">
                         <h2>Issues</h2>
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <span className="input-field" style={{ marginRight: "10px" }}>
+                                <input type="number" id="threshold" className="validate"
+                                placeholder="Similarity%" />
+                            </span>
+                            <a className="waves-effect waves-teal btn-flat" onClick={this.updateThreshold}>
+                                Set threshold
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div>
