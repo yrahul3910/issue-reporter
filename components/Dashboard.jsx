@@ -3,10 +3,6 @@ import IssueCard from "./IssueCard.jsx";
 import PropTypes from "prop-types";
 
 class Dashboard extends React.Component {
-    /*
-        props:
-            issues: Array of all the issues, pulled from the DB
-    */
     constructor(props) {
         super(props);
         this.state = { issues: [] }
@@ -87,7 +83,6 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-    issues: PropTypes.array,
     user: PropTypes.object.isRequired
 };
 

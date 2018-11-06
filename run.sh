@@ -8,12 +8,12 @@ echo '-----------------------------------'
 echo 'Linting Python code'
 echo '-----------------------------------'
 pycodestyle server.py
-npm run lint -s
+npm run lint
 
 echo '-----------------------------------'
 echo 'Creating dist files'
 echo '-----------------------------------'
-npm run build -s
+npm run build
 
 echo '-----------------------------------'
 echo 'Starting Flask server'

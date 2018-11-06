@@ -350,6 +350,57 @@ def filter_issues():
                     mimetype='application/json')
 
 
+@app.route('/api/user/issues', methods=['POST'])
+def fetch_user_issues():
+    """
+    Gets all the issues by the user, along with their status. Does not
+    return the duplicate count. Accepts JSON with
+    {
+        token: string
+    }
+    Returns a JSON:
+    {
+        success: true,
+        issues: [
+            {
+                title: string,
+                location: string,
+                desc: string,
+                status: string,
+                date: Date
+            }
+        ]
+    }
+    If the token is invalid, a 401 Unauthorized is returned with 
+    {
+        success: false
+    }
+    """
+    data = request.get_json()
+    token = data['token']
+
+    # Decode the user from the token
+    user = jwt.decode(token, secret)
+
+    if user.type == 'org':
+        response = { 'success': False }
+        return Response(json.dumps(response), status=401,
+                        mimetype='application/json')
+
+    # Get all the user's issues
+    issue_col = db.get_collection('issues')
+    issues = list(issue_col.find({
+        'username': user['username']
+    }))
+
+    response = {
+        'success': True,
+        'issues': issues
+    }
+    return Response(json.dumps(response), status=200, 
+                    mimetype='application/json')
+
+
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
 def static_files(path):

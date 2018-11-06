@@ -15,11 +15,8 @@ class Sidebar extends React.Component {
     render() {
         return (
             <ul className="sidenav fixed teal white-text center" style={{width: "100%", height: "100vh"}}>
-                <li style={{paddingTop: "20px"}}>
-                    <img src={this.props.dp} style={{width: "100px", height: "100px"}} className="round" />
-                </li>
                 <li>
-                    <h5>{this.props.name}</h5>
+                    <h4>{this.props.name}</h4>
                 </li>
                 <li style={{paddingTop: "50px"}}>
                     <Link to="/" className="white-text">
@@ -51,7 +48,6 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-    dp: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
 };
 export default Sidebar;

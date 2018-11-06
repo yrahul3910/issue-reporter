@@ -6,7 +6,7 @@ import Banner from "./Banner.jsx";
 class MainPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { name: null };
+        this.state = { name: null, type: null };
     }
 
     async componentDidMount() {
@@ -27,7 +27,7 @@ class MainPage extends React.Component {
             let { user } = data;
 
             this.props.toggleLogin(user);
-            this.setState({ name: user.name })
+            this.setState({ name: user.name, type: user.type })
         }
     }
 
@@ -44,10 +44,19 @@ class MainPage extends React.Component {
                     </Link>
                 </div>
             );
-        else
+        else if (this.state.type == "org")
             loginButton = (
                 <div className="center">
                     <Link to="/dashboard" className="teal-text"
+                        style={{ fontSize: 16, fontWeight: 400 }}>
+                        Welcome back, {this.state.name}! Continue to your dashboard.
+                    </Link>
+                </div>
+            );
+        else
+            loginButton = (
+                <div className="center">
+                    <Link to="/user" className="teal-text"
                         style={{ fontSize: 16, fontWeight: 400 }}>
                         Welcome back, {this.state.name}! Continue to your dashboard.
                     </Link>
