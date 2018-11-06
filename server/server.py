@@ -9,8 +9,8 @@ import json
 
 # Use the dist/ directory as the static files directory.
 app = Flask(__name__,
-            static_folder='dist',
-            static_url_path='/')
+            static_folder='../dist',
+            static_url_path='/../')
 client = pymongo.MongoClient('localhost', 27017)
 db = client.get_database('issues')
 illegal_chars_regex = re.compile(r'[!@#$%^&*()+\-=[\]{};\':"\\|,.<>/?]')
@@ -371,7 +371,7 @@ def fetch_user_issues():
             }
         ]
     }
-    If the token is invalid, a 401 Unauthorized is returned with 
+    If the token is invalid, a 401 Unauthorized is returned with
     {
         success: false
     }
@@ -382,22 +382,22 @@ def fetch_user_issues():
     # Decode the user from the token
     user = jwt.decode(token, secret)
 
-    if user.type == 'org':
-        response = { 'success': False }
+    if user['type'] == 'org':
+        response = {'success': False}
         return Response(json.dumps(response), status=401,
                         mimetype='application/json')
 
     # Get all the user's issues
     issue_col = db.get_collection('issues')
-    issues = list(issue_col.find({
+    issues = list(issue_col.find(filter={
         'username': user['username']
-    }))
+    }, projection={'_id': False}))
 
     response = {
         'success': True,
         'issues': issues
     }
-    return Response(json.dumps(response), status=200, 
+    return Response(json.dumps(response), status=200,
                     mimetype='application/json')
 
 

@@ -10,13 +10,18 @@ class Sidebar extends React.Component {
     */
     constructor(props) {
         super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+        localStorage.removeItem("token");
     }
 
     render() {
         return (
             <ul className="sidenav fixed teal white-text center" style={{width: "100%", height: "100vh"}}>
                 <li>
-                    <h4>{this.props.name}</h4>
+                    <h5>{this.props.name}</h5>
                 </li>
                 <li style={{paddingTop: "50px"}}>
                     <Link to="/" className="white-text">
@@ -25,22 +30,16 @@ class Sidebar extends React.Component {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/profile" className="white-text">
-                        <i className="white-text material-icons">person</i>
-                        Profile
-                    </Link>
-                </li>
-                <li>
                     <Link to="/dashboard" className="white-text">
                         <i className="material-icons white-text">priority_high</i>
                         Issues
                     </Link>
                 </li>
-                <li style={{paddingTop: "50px"}} >
-                    <a href="#" className="white-text">
+                <li style={{paddingTop: "50px"}} onClick={this.logout} >
+                    <Link to="/" className="white-text">
                         <i className="material-icons white-text">exit_to_app</i>
                         Log Out
-                    </a>
+                    </Link>
                 </li>
             </ul>
         );
@@ -48,6 +47,7 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    toggleLogin: PropTypes.func.isRequired
 };
 export default Sidebar;

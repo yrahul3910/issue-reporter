@@ -8,7 +8,7 @@ class IssuePage extends React.Component {
         return (
             <div className="row">
                 <div className="col-md-3" style={{paddingLeft: "0", paddingRight: "0"}}>
-                    <Sidebar name={this.props.user.name} />
+                    <Sidebar name={this.props.user.name} toggleLogin={this.props.toggleLogin} />
                 </div>
                 <div className="col-md-9" style={{paddingLeft: "0"}}>
                     <Dashboard user={this.props.user} />
@@ -20,7 +20,8 @@ class IssuePage extends React.Component {
 }
 
 IssuePage.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    toggleLogin: PropTypes.func.isRequired
 }
 
 export default IssuePage;

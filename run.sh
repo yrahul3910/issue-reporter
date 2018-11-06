@@ -7,7 +7,7 @@ yarn
 echo '-----------------------------------'
 echo 'Linting Python code'
 echo '-----------------------------------'
-pycodestyle server.py
+pycodestyle server/server.py
 npm run lint
 
 echo '-----------------------------------'
@@ -18,4 +18,4 @@ npm run build
 echo '-----------------------------------'
 echo 'Starting Flask server'
 echo '-----------------------------------'
-FLASK_APP=server.py flask run
+FLASK_APP=server/server.py flask run

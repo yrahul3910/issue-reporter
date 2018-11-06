@@ -15,7 +15,7 @@ class Login extends React.Component {
     click() {
         let utype;
         let username = $("#username").val();
-        if ($("#res").checked)
+        if ($("#res")[0].checked)
             utype = "user";
         else
             utype = "org";
@@ -36,15 +36,23 @@ class Login extends React.Component {
                 })
 
                 const content = await response.json();
-                $("#message").html("<span style='color: green'>Success!</span>");
-                this.props.toggleLogin({
-                    name,
-                    username,
-                    type: utype
-                });
 
-                localStorage.setItem("token", content.token);
-                this.props.history.push("/dashboard");
+                if (content.success) {
+                    $("#message").html("<span style='color: green'>Success!</span>");
+                    this.props.toggleLogin({
+                        name,
+                        username,
+                        type: utype
+                    });
+    
+                    localStorage.setItem("token", content.token);
+
+                    if (utype == "org")
+                        this.props.history.push("/dashboard");
+                    else
+                        this.props.history.push("/user");
+                } else
+                    $("#message").html("<span style='color: red'>Authentication failed.</span>");
             } catch (e) {
                 $("#message").html("<span style='color: red'>Authentication failed.</span>");
             }
@@ -87,7 +95,7 @@ class Login extends React.Component {
                             <div className="input-field col-md-4">
                                 <p>
                                     <label>
-                                        <input name="group1" id="res" type="radio" checked />
+                                        <input name="group1" id="res" type="radio" defaultChecked />
                                         <span>Resident/Citizen</span>
                                     </label>
                                 </p>

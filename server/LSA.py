@@ -35,7 +35,7 @@ class LSA:
         if self.verbose:
             print('Loading data...', end='')
 
-        with open('raw_text_dataset.pickle', 'rb') as f:
+        with open('server/raw_text_dataset.pickle', 'rb') as f:
             data = pickle.load(f)
 
         if self.verbose:

@@ -25,10 +25,10 @@ class Main extends React.Component {
                     <MainPage {...props} toggleLogin={this.toggleLogin} />
                 } />
                 <Route exact path="/dashboard" render={() =>
-                    <IssuePage user={this.state.user} />
+                    <IssuePage user={this.state.user} toggleLogin={this.toggleLogin} />
                 } />
                 <Route exact path="/user" render={() =>
-                    <UserDashboard user={this.state.user} />
+                    <UserDashboard user={this.state.user} toggleLogin={this.toggleLogin} />
                 } />
                 <Route exact path="/login" render={(props) =>
                     <Login {...props} toggleLogin={this.toggleLogin} />
