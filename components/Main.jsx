@@ -6,6 +6,7 @@ import IssuePage from "./IssuePage.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import UserDashboard from "./UserDashboard.jsx";
+import NewIssue from "./NewIssue.jsx";
 
 class Main extends React.Component {
     constructor(props) {
@@ -35,6 +36,9 @@ class Main extends React.Component {
                 } />
                 <Route exact path="/register" render={(props) =>
                     <Register {...props} toggleLogin={this.toggleLogin} />
+                } />
+                <Route exact path="/issue/new" render={() => 
+                    <NewIssue toggleLogin={this.toggleLogin} /> 
                 } />
             </Switch>
         );

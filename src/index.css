@@ -31,3 +31,11 @@ a:hover {
 .left-shift {
     margin-left: 60px;
 }
+
+p.New {
+    color: orange;
+}
+
+p.Resolved {
+    color: green;
+}

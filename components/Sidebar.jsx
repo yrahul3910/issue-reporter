@@ -30,7 +30,7 @@ class Sidebar extends React.Component {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" className="white-text">
+                    <Link to={this.props.type == "user" ? "/user" : "/dashboard"} className="white-text">
                         <i className="material-icons white-text">priority_high</i>
                         Issues
                     </Link>
@@ -48,6 +48,7 @@ class Sidebar extends React.Component {
 
 Sidebar.propTypes = {
     name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     toggleLogin: PropTypes.func.isRequired
 };
 export default Sidebar;

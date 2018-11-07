@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 
 import UserIssueCard from "./UserIssueCard.jsx";
 import Sidebar from "./Sidebar.jsx";
@@ -28,18 +29,20 @@ class UserDashboard extends React.Component {
 
     render() {
         let issues = this.state.issues ?
-            this.state.issues.map((issues, i) => {
-                let issue = issues.issue;
+            this.state.issues.map((issue, i) => {
                 return <UserIssueCard key={i}
                     title={issue.title}
                     location={issue.location}
                     desc={issue.desc}
-                    status={issues.status} />;
+                    status={issue.status}
+                    org={issue.org} />;
             }) : <div></div>;
         return (
             <div className="row">
                 <div className="col-md-3" style={{ paddingLeft: "0", paddingRight: "0" }}>
-                    <Sidebar name={this.props.user.name} toggleLogin={this.props.toggleLogin} />
+                    <Sidebar name={this.props.user.name} 
+                        toggleLogin={this.props.toggleLogin}
+                        type={this.props.user.type} />
                 </div>
                 <div className="col-md-9">
                     <div className="row">
@@ -47,9 +50,16 @@ class UserDashboard extends React.Component {
                             <h2>Your issues</h2>
                         </div>
                     </div>
+                    <div className="row">
+                        <div className="center">
+                            <Link to="/issue/new" className="waves-effect waves-teal btn-flat">
+                                Add new issue
+                            </Link>
+                        </div>
+                    </div>
                     <div>
                         <div>
-                            <ul className="collection">
+                            <ul>
                                 {issues}
                             </ul>
                         </div>
