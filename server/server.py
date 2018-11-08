@@ -295,7 +295,8 @@ def filter_issues():
     # Get the issues for this organization
     issue_col = db.get_collection('issues')
     issues = list(issue_col.find({
-        'org': user['username']
+        'org': user['username'],
+        'status': 'New'
     }))
 
     # Initialize the LSA object and train
@@ -398,6 +399,51 @@ def fetch_user_issues():
         'issues': issues
     }
     return Response(json.dumps(response), status=200,
+                    mimetype='application/json')
+
+
+@app.route('/api/issues/complete', method=['POST'])
+def mark_issue_completed():
+    """
+    Marks an issue completed based on its keys. Accepts a JSON with
+    {
+        token: string,
+        title: string,
+        location: string,
+        desc: string
+    }
+    and returns a 200 OK with
+    {
+        success: true
+    }
+    """
+    # Get request params
+    data = request.get_json()
+    token = data['token']
+    title = data['title']
+    location = data['location']
+    desc = data['desc']
+
+    # Decode the token
+    user = jwt.decode(token, secret)
+    if user['type'] == 'user':
+        return Response('{"success": false}', status=401,
+                        mimetype='application/json')
+    
+    issue_col = db.get_collection('issues')
+    issue_col.find_one_and_update({
+        'org': user['username'],
+        'status': 'New',
+        'title': title,
+        'location': location,
+        'desc': desc
+    }, {
+        '$set': {
+            'status': 'Completed'
+        }
+    })
+
+    return Response('{"success": true}', status=401,
                     mimetype='application/json')
 
 

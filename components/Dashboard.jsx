@@ -7,7 +7,16 @@ class Dashboard extends React.Component {
         super(props);
         this.state = { issues: [] }
         this.updateThreshold = this.updateThreshold.bind(this);
+        this.toggleStatus = this.toggleStatus.bind(this);
+
         this.threshold = React.createRef();
+    }
+
+    toggleStatus(i) {
+        let {issues} = this.state;
+        issues.splice(i, 1);
+
+        this.setState({issues});
     }
 
     async componentDidMount() {
@@ -52,7 +61,9 @@ class Dashboard extends React.Component {
                     title={issue.title}
                     location={issue.location}
                     desc={issue.desc}
-                    duplicates={issues.duplicates} />;
+                    index={i}
+                    duplicates={issues.duplicates}
+                    toggleStatus={this.toggleStatus} />;
             }) : <div></div>;
         return (
             <div>
