@@ -7,6 +7,7 @@ class Dashboard extends React.Component {
         super(props);
         this.state = { issues: [] }
         this.updateThreshold = this.updateThreshold.bind(this);
+        this.threshold = React.createRef();
     }
 
     async componentDidMount() {
@@ -35,7 +36,7 @@ class Dashboard extends React.Component {
             },
             body: JSON.stringify({
                 token: localStorage.getItem("token"),
-                threshold: $("#threshold").val() / 100
+                threshold: this.threshold.current.value / 100
             })
         });
 
@@ -51,7 +52,6 @@ class Dashboard extends React.Component {
                     title={issue.title}
                     location={issue.location}
                     desc={issue.desc}
-                    id={i.toString()}
                     duplicates={issues.duplicates} />;
             }) : <div></div>;
         return (
@@ -61,7 +61,7 @@ class Dashboard extends React.Component {
                         <h2>Issues</h2>
                         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <span className="input-field" style={{ marginRight: "10px" }}>
-                                <input type="number" id="threshold" className="validate"
+                                <input type="number" ref={this.threshold} className="validate"
                                 placeholder="Similarity%" />
                             </span>
                             <a className="waves-effect waves-teal btn-flat" onClick={this.updateThreshold}>
@@ -71,11 +71,7 @@ class Dashboard extends React.Component {
                     </div>
                 </div>
                 <div>
-                    <div>
-                        <ul className="collection">
-                            {issues}
-                        </ul>
-                    </div>
+                    {issues}
                 </div>
             </div>
         );

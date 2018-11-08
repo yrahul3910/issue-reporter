@@ -71,7 +71,7 @@ class NewIssue extends React.Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-4 col-md-offset-4">
-                                    <a className="btn waves-effect waves-light" onClick={this.click}>LOG IN</a>
+                                    <a className="btn waves-effect waves-light" onClick={this.click}>Create Issue</a>
                                 </div>
                             </div>
                         </form>
