@@ -429,7 +429,7 @@ def mark_issue_completed():
     if user['type'] == 'user':
         return Response('{"success": false}', status=401,
                         mimetype='application/json')
-    
+
     issue_col = db.get_collection('issues')
     issue_col.find_one_and_update({
         'org': user['username'],
