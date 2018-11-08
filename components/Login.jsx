@@ -70,31 +70,31 @@ class Login extends React.Component {
                     </div>
                 </nav>
                 <div className="row" style={{ marginTop: "40px" }}>
-                    <div className="col-md-4 col-md-offset-4">
+                    <div className="col s4 offset-s4">
                         <div id="message" style={{color: "red"}}>{this.state.message}</div>
                     </div>
                 </div>
                 <div className="row" style={{ marginTop: "10px" }} >
                     <form>
                         <div className="row">
-                            <div className="input-field col-md-4 col-md-offset-4">
+                            <div className="input-field col s4 offset-s4">
                                 <i className="material-icons prefix">account_circle</i>
                                 <input id="username" ref={this.username} type="text" className="validate" />
                                 <label htmlFor="username">Username</label>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col-md-4 col-md-offset-4">
+                            <div className="input-field col s4 offset-s4">
                                 <i className="material-icons prefix">lock_outline</i>
                                 <input id="password" ref={this.password} type="password" className="validate" />
                                 <label htmlFor="password">Password</label>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="input-field col-md-1 col-md-offset-4">
+                            <div className="input-field col s1 offset-s4">
                                 <i className="material-icons prefix">account_balance</i>
                             </div>
-                            <div className="input-field col-md-4">
+                            <div className="input-field col s4">
                                 <p>
                                     <label>
                                         <input name="group1" ref={this.resident} type="radio" defaultChecked />
@@ -110,7 +110,7 @@ class Login extends React.Component {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-md-4 col-md-offset-4">
+                            <div className="col s4 offset-s4">
                                 <a className="btn waves-effect waves-light" onClick={this.click}>LOG IN</a>
                             </div>
                         </div>

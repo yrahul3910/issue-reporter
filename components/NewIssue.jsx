@@ -37,40 +37,40 @@ class NewIssue extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-3" style={{ paddingLeft: "0", paddingRight: "0" }}>
+                <div className="col s3" style={{ paddingLeft: "0", paddingRight: "0" }}>
                     <Sidebar name={this.props.user.name}
                         toggleLogin={this.props.toggleLogin}
                         type={this.props.user.type} />
                 </div>
-                <div className="col-md-9">
+                <div className="col s9">
                     <div className="row" style={{ marginTop: "10px" }} >
                         <form>
                             <div className="row">
-                                <div className="input-field col-md-4 col-md-offset-4">
+                                <div className="input-field col s4 offset-s4">
                                     <input id="title" ref={this.title} type="text" className="validate" />
                                     <label htmlFor="title">Title</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col-md-4 col-md-offset-4">
+                                <div className="input-field col s4 offset-s4">
                                     <input id="org" ref={this.org} type="text" className="validate" />
                                     <label htmlFor="org">Organization</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col-md-4 col-md-offset-4">
+                                <div className="input-field col s4 offset-s4">
                                     <input id="location" ref={this.location} type="text" className="validate" />
                                     <label htmlFor="location">Location</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col-md-4 col-md-offset-4">
+                                <div className="input-field col s4 offset-s4">
                                     <textarea id="desc" ref={this.desc} className="materialize-textarea"></textarea>
                                     <label htmlFor="desc">Descriptions</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-md-4 col-md-offset-4">
+                                <div className="col s4 offset-s4">
                                     <a className="btn waves-effect waves-light" onClick={this.click}>Create Issue</a>
                                 </div>
                             </div>

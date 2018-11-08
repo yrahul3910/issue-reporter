@@ -39,12 +39,12 @@ class UserDashboard extends React.Component {
             }) : <div></div>;
         return (
             <div className="row">
-                <div className="col-md-3" style={{ paddingLeft: "0", paddingRight: "0" }}>
+                <div className="col s3" style={{ paddingLeft: "0", paddingRight: "0" }}>
                     <Sidebar name={this.props.user.name} 
                         toggleLogin={this.props.toggleLogin}
                         type={this.props.user.type} />
                 </div>
-                <div className="col-md-9">
+                <div className="col s9">
                     <div className="row">
                         <div className="center">
                             <h2>Your issues</h2>

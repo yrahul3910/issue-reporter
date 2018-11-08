@@ -11,7 +11,7 @@ class Banner extends React.Component {
                 </nav>
                 <div className="row banner white-text" style={{backgroundImage: "url('banner.jpg')"}} >
                     <h3 className="left-shift" style={{marginTop: "70px"}}>Intelligent Duplicate Filtering</h3>
-                    <div className="col-md-6 left-shift" style={{marginBottom: "40px"}} >
+                    <div className="col s6 left-shift" style={{marginBottom: "40px"}} >
                         <p>
                             Issue Reporter lets you connect with citizens, users and clients using
                             powerful natural language processing algorithms to filter out duplicate

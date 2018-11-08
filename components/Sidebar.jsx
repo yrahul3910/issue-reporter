@@ -3,11 +3,6 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 class Sidebar extends React.Component {
-    /*
-        props:
-            dp: A base64 encoding of an image.
-            name: The organization's name.
-    */
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);

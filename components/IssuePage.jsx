@@ -7,12 +7,12 @@ class IssuePage extends React.Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-3" style={{paddingLeft: "0", paddingRight: "0"}}>
+                <div className="col s3" style={{paddingLeft: "0", paddingRight: "0"}}>
                     <Sidebar name={this.props.user.name} 
                         toggleLogin={this.props.toggleLogin}
                         type={this.props.user.type} />
                 </div>
-                <div className="col-md-9" style={{paddingLeft: "0"}}>
+                <div className="col s9" style={{paddingLeft: "0"}}>
                     <Dashboard user={this.props.user} />
                 </div>
                 {this.props.children}
