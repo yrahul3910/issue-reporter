@@ -37,8 +37,8 @@ class Main extends React.Component {
                 <Route exact path="/register" render={(props) =>
                     <Register {...props} toggleLogin={this.toggleLogin} />
                 } />
-                <Route exact path="/issue/new" render={() => 
-                    <NewIssue toggleLogin={this.toggleLogin} /> 
+                <Route exact path="/issue/new" render={(props) => 
+                    <NewIssue {...props} toggleLogin={this.toggleLogin} user={this.state.user} /> 
                 } />
             </Switch>
         );

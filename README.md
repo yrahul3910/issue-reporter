@@ -75,5 +75,4 @@ This is used for both users and organizations. Format is:
 
 # TODO
 This is still a work in progress. As such, there's still a lot left to be done.
-* The user dashboard needs to allow them to add a new issue.
 * The organization dashboard should allow the admins to view the details of all the duplicate issues, and also change the status.
