@@ -402,7 +402,7 @@ def fetch_user_issues():
                     mimetype='application/json')
 
 
-@app.route('/api/issues/complete', method=['POST'])
+@app.route('/api/issues/complete', methods=['POST'])
 def mark_issue_completed():
     """
     Marks an issue completed based on its keys. Accepts a JSON with
