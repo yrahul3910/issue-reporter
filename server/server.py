@@ -300,7 +300,7 @@ def filter_issues():
     }))
 
     # Initialize the LSA object and train
-    lsa = LSA()
+    lsa = LSA(True)
     lsa.vectorize_data()
 
     filtered = []  # List of filtered issues

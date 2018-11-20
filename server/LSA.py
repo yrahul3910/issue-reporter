@@ -83,7 +83,7 @@ class LSA:
         if self.verbose:
             print('done!\nPerforming SVD...', end='')
 
-        svd = TruncatedSVD(100)
+        svd = TruncatedSVD(100, algorithm='arpack')
         X_train_svd = svd.fit_transform(X_train_tfidf)
 
         if self.verbose:
