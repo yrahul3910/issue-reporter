@@ -329,7 +329,7 @@ def filter_issues():
             # then add it to the list.
             similarity = lsa.cosine_similarity(v1, v2)
 
-            if similarity >= threshold or j in covered:
+            if similarity >= threshold and j not in covered:
                 if similarity > max_similarity:
                     max_similarity = similarity
                 covered.append(j)
